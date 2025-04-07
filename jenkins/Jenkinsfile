@@ -1,0 +1,33 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Clone Repo') {
+      steps {
+        git 'https://github.com/yourusername/yourrepo.git'
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        sh '''
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r flask_app/requirements.txt
+        '''
+      }
+    }
+
+    stage('Restart Service') {
+      steps {
+        sh 'sudo systemctl restart flaskapp'
+      }
+    }
+
+    stage('Test Endpoint') {
+      steps {
+        sh 'curl http://localhost:8000/'
+      }
+    }
+  }
+}
