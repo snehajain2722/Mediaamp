@@ -1,0 +1,1 @@
+* * * * * /bin/bash /path/to/crontab/curl_job.sh
